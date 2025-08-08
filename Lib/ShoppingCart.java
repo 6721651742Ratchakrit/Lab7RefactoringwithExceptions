@@ -74,7 +74,9 @@ public class ShoppingCart {
      * @throws InvalidOperationException ถ้าวนแล้วไม่เจอสินค้าที่จะลบ
      */
     public void removeItem(String productId) throws InvalidOperationException {
-        if (productId == null) return;
+        if (productId == null) {
+            throw new IllegalArgumentException("Product ID cannot be null.");
+        }
         CartItem itemToRemove = null;
         for (CartItem item : items) {
             if (item.getProduct().getProductId().equals(productId)) {
