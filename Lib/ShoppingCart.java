@@ -50,10 +50,13 @@ public class ShoppingCart {
      * หากมีสินค้าชนิดเดียวกันอยู่แล้ว จะเพิ่มจำนวนเข้าไป
      * @param productId รหัสของสินค้า
      * @param quantity จำนวนที่ต้องการเพิ่ม (ต้องมากกว่า 0)
+     * @throws ProductNotFoundException ถ้าวนแล้วไม่เจอสินค้า
      */
     public void addItem(String productId, int quantity) throws ProductNotFoundException {
         Product p = productCatalog.findById(productId);
-        
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive.");
+        }
         for (CartItem item : items) {
             if (item.getProduct().equals(p)) {
                 item.increaseQuantity(quantity);
@@ -68,6 +71,7 @@ public class ShoppingCart {
     /**
      * ลบสินค้า (ทั้งรายการ) ออกจากตะกร้า
      * @param productId รหัสของสินค้าที่ต้องการลบ
+     * @throws InvalidOperationException ถ้าวนแล้วไม่เจอสินค้าที่จะลบ
      */
     public void removeItem(String productId) throws InvalidOperationException {
         if (productId == null) return;
